@@ -31,6 +31,24 @@ const UserSchema = new mongoose.Schema({
       default: 20,
     },
   },
+  results: {
+    prev: {
+      type: String,
+      default: null,
+    },
+    next: {
+      type: String,
+      default: null,
+    },
+    resultIds: {
+      type: [String],
+      default: [],
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);

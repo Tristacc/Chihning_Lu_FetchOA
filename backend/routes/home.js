@@ -33,4 +33,60 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// update the selected breeds for the user
+router.post("/update", async (req, res, next) => {
+  try {
+    const { selectedBreeds, zipCodes, ageRange } = req.body;
+    const user = await Token.findOne();
+
+    user.selectedBreeds = selectedBreeds;
+    user.zipCodes = zipCodes;
+    user.ageRange = ageRange;
+
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    selectedBreeds.forEach((breed) => queryParams.append("breeds", breed));
+    zipCodes.forEach((zip) => queryParams.append("zipCodes", zip));
+    if (ageRange) {
+      if (ageRange.min !== undefined)
+        queryParams.append("ageMin", ageRange.min);
+      if (ageRange.max !== undefined)
+        queryParams.append("ageMax", ageRange.max);
+    }
+
+    // Add optional search configuration
+    queryParams.append("size", req.query.size || "25");
+    if (req.query.from) queryParams.append("from", req.query.from);
+    if (req.query.sort) queryParams.append("sort", req.query.sort);
+
+    const response = await fetch(
+      `https://frontend-take-home-service.fetch.com/dogs/search?${queryParams}`,
+      {
+        method: "GET",
+        headers: {
+          Cookie: `fetch-access-token=${user.token}`,
+        },
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch dogs: ${response.status}`);
+    }
+    const data = await response.json();
+    user.results = {
+      prev: data.prev,
+      next: data.next,
+      resultIds: data.resultIds,
+      total: data.total,
+    };
+
+    await user.save();
+    res.status(200).json({ message: "updated successfully" });
+  } catch (err) {
+    console.error("Error updating preferences:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;
