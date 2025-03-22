@@ -4,6 +4,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
 const loginRoute = require("./routes/login");
+const homeRoute = require("./routes/home");
 
 // database sets up
 const mongoose = require("mongoose");
@@ -40,6 +41,7 @@ app.use(
   })
 );
 app.use("/", loginRoute);
+app.use("/home", homeRoute);
 
 // Start the server
 app.listen(port, () =>
