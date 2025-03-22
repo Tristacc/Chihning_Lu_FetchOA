@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Dropdown from "../components/Dropdown.js";
+import ZipCodeSelector from "../components/ZipCodeSelector.js";
+import AgeSelector from "../components/AgeSelector.js";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [breeds, setBreeds] = useState([]);
@@ -104,6 +106,8 @@ const Home = () => {
           <li key={index}>{breed}</li>
         ))}
       </ul>
+      <ZipCodeSelector onSubmit={zipCodesChange} />
+      <AgeSelector onAgeChange={handleAgeChange} />
       <button type="button" onClick={getAllInfo}>
         Search
       </button>
