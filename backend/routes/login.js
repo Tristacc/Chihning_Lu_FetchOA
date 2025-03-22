@@ -62,4 +62,22 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+router.get("/logout", async (req, res, next) => {
+  const url = "https://frontend-take-home-service.fetch.com/auth/logout";
+  const User = await Token.findOne();
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ name: User.userName, email: User.email }),
+    });
+    await Token.deleteMany({});
+    res.status(200).json({ message: "Logout successful" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
