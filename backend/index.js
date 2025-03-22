@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const loginRoute = require("./routes/login");
 const homeRoute = require("./routes/home");
+const resultsRoute = require("./routes/results");
 
 // database sets up
 const mongoose = require("mongoose");
@@ -42,6 +43,7 @@ app.use(
 );
 app.use("/", loginRoute);
 app.use("/home", homeRoute);
+app.use("/results", resultsRoute);
 
 // Start the server
 app.listen(port, () =>
