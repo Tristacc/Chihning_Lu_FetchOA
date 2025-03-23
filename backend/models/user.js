@@ -50,7 +50,16 @@ const UserSchema = new mongoose.Schema({
     },
   },
   favorites: {
-    type: [String],
+    type: [
+      {
+        img: { type: String },
+        name: { type: String },
+        age: { type: Number },
+        breed: { type: String },
+        zip_code: { type: String },
+        id: { type: String },
+      },
+    ],
     default: [],
   },
 });

@@ -31,9 +31,9 @@ router.get("/", async (req, res, next) => {
 
 router.post("/update", async (req, res, next) => {
   try {
-    const favoriteList = req.body;
+    const { favorites } = req.body;
     const user = await Token.findOne();
-    console.log("favoriteList--->", favoriteList);
+    user.favorites = favorites;
     await user.save();
     res.status(200).json({ message: "updated successfully" });
   } catch (err) {
