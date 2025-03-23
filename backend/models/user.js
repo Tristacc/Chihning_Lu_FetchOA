@@ -49,6 +49,10 @@ const UserSchema = new mongoose.Schema({
       default: 0,
     },
   },
+  favorites: {
+    type: [String],
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);

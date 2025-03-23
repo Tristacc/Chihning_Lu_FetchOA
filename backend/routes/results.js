@@ -29,4 +29,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/update", async (req, res, next) => {
+  try {
+    const favoriteList = req.body;
+    const user = await Token.findOne();
+    console.log("favoriteList--->", favoriteList);
+    await user.save();
+    res.status(200).json({ message: "updated successfully" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

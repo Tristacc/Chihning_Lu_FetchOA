@@ -11,10 +11,8 @@ const Results = () => {
   const dogsPerPage = 10;
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [currentDogs, setCurrentDogs] = useState([]);
   const endIndex = currentPage * dogsPerPage;
   const startIndex = endIndex - dogsPerPage;
-  // let currentDogs = dogs.slice(startIndex, endIndex);
   const currentDogs = dogs.slice(startIndex, endIndex);
   const numberOfPages = Math.ceil(dogs.length / dogsPerPage);
 
@@ -32,6 +30,28 @@ const Results = () => {
     fetchResults();
   }, []);
 
+  //keep track of favorites list
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/results/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorites }),
+        });
+
+        if (!response.ok) {
+          console.error("Failed to update favorites in the database");
+        }
+      } catch (error) {
+        console.error("Error fetching favorites:", error);
+      }
+    };
+    fetchFavorites();
+  }, [favorites]);
+
   const backToSearch = () => {
     window.location.href = "/home";
   };
@@ -44,10 +64,6 @@ const Results = () => {
 
       return updatedFavorites;
     });
-  };
-
-  const handlePageChange = () => {
-    console.log("here");
   };
 
   return (
