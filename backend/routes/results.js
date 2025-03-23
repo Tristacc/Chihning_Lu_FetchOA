@@ -43,4 +43,30 @@ router.post("/update", async (req, res, next) => {
   }
 });
 
+router.post("/location", async (req, res, next) => {
+  const user = await Token.findOne();
+  const { zipCode } = req.body;
+  console.log(zipCode);
+  try {
+    const response = await fetch(
+      "https://frontend-take-home-service.fetch.com/locations",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `fetch-access-token=${user.token}`,
+        },
+        credentials: "include",
+        body: JSON.stringify([zipCode]),
+      }
+    );
+    const data = await response.json();
+    console.log(data[0]);
+    res.status(200).json(data[0]);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 module.exports = router;
