@@ -6,6 +6,7 @@ const app = express();
 const loginRoute = require("./routes/login");
 const homeRoute = require("./routes/home");
 const resultsRoute = require("./routes/results");
+const favoriteRoute = require("./routes/favorite");
 
 // database sets up
 const mongoose = require("mongoose");
@@ -44,6 +45,7 @@ app.use(
 app.use("/", loginRoute);
 app.use("/home", homeRoute);
 app.use("/results", resultsRoute);
+app.use("/favorite", favoriteRoute);
 
 // Start the server
 app.listen(port, () =>

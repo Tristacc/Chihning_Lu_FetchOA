@@ -31,6 +31,7 @@ router.get("/", async (req, res, next) => {
 
 router.post("/update", async (req, res, next) => {
   try {
+    // extract the favorites from the request body
     const { favorites } = req.body;
     const user = await Token.findOne();
     user.favorites = favorites;

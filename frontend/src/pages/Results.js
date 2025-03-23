@@ -66,9 +66,13 @@ const Results = () => {
     });
   };
 
+  const goToFav = () => {
+    window.location.href = "/favorite";
+  };
   return (
     <div>
       <button onClick={backToSearch}>Back to Search</button>
+      <button onClick={goToFav}>Favorite list</button>
       <div className="dog-cards-container">
         {currentDogs.map((dog, index) => (
           <DogCards
@@ -76,6 +80,7 @@ const Results = () => {
             dog={dog}
             isFavorite={favorites.some((fav) => fav.id === dog.id)}
             onToggleFavorite={toggleFavorite}
+            showButton={true}
           />
         ))}
       </div>

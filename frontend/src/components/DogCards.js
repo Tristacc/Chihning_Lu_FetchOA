@@ -1,7 +1,7 @@
 import React from "react";
 import "./DogCards.css";
 
-const DogCards = ({ dog, isFavorite, onToggleFavorite }) => {
+const DogCards = ({ dog, isFavorite, onToggleFavorite, showButton }) => {
   return (
     <div>
       <div key={dog.id} className="dog-card">
@@ -20,9 +20,11 @@ const DogCards = ({ dog, isFavorite, onToggleFavorite }) => {
             <p>Location: {dog.zip_code}</p>
           </div>
         </div>
-        <button onClick={() => onToggleFavorite(dog)}>
-          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-        </button>
+        {showButton && (
+          <button onClick={() => onToggleFavorite(dog)}>
+            {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+          </button>
+        )}
       </div>
     </div>
   );
