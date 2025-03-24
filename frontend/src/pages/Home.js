@@ -127,7 +127,7 @@ const Home = () => {
       <ZipCodeSelector onSubmit={zipCodesChange} />
       <AgeSelector onAgeChange={handleAgeChange} />
       <label>
-        Number of results: 1~10000:
+        <h4>Number of results(1~10000) & sort field:</h4>
         <input
           type="number"
           value={size}
@@ -144,13 +144,11 @@ const Home = () => {
         ))}
       </select>
       <div>
-        <h1>Sort Order Toggle</h1>
         <Toggle
           label="Sort Order"
           value={sortOrder}
           onChange={handleToggleChange}
         />
-        <p>Selected Sort Order: {sortOrder}</p>
       </div>
       <button type="button" onClick={getAllInfo}>
         Search
