@@ -36,12 +36,13 @@ router.get("/", async (req, res, next) => {
 // update the selected breeds for the user
 router.post("/update", async (req, res, next) => {
   try {
-    const { selectedBreeds, zipCodes, ageRange } = req.body;
+    const { selectedBreeds, zipCodes, ageRange, size, field, order } = req.body;
     const user = await Token.findOne();
 
     user.selectedBreeds = selectedBreeds;
     user.zipCodes = zipCodes;
     user.ageRange = ageRange;
+    user.size = size;
 
     // Build query parameters
     const queryParams = new URLSearchParams();
@@ -55,9 +56,8 @@ router.post("/update", async (req, res, next) => {
     }
 
     // Add optional search configuration
-    queryParams.append("size", req.query.size || "25");
-    if (req.query.from) queryParams.append("from", req.query.from);
-    if (req.query.sort) queryParams.append("sort", req.query.sort);
+    queryParams.append("size", size);
+    queryParams.append("sort", `${field}:${order}`);
 
     const response = await fetch(
       `https://frontend-take-home-service.fetch.com/dogs/search?${queryParams}`,

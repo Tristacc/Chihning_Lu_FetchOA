@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Dropdown from "../components/Dropdown.js";
 import ZipCodeSelector from "../components/ZipCodeSelector.js";
 import AgeSelector from "../components/AgeSelector.js";
+import Toggle from "../components/Toggle.js";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [breeds, setBreeds] = useState([]);
@@ -9,7 +10,12 @@ const Home = () => {
   const [selectedBreedsArray, setSelectedBreedsArray] = useState([]);
   const [zipCodeArray, setZipCodeArray] = useState([]);
   const [ageRange, setAgeRange] = useState({ min: 0, max: 20 });
+  const [size, setSize] = useState(25);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [field, setField] = useState("breed");
+  const fields = ["breed", "name", "age"];
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchBreeds = async () => {
       try {
@@ -60,6 +66,7 @@ const Home = () => {
   };
 
   const getAllInfo = async () => {
+    console.log(sortOrder);
     try {
       const response = await fetch("http://localhost:3001/home/update", {
         method: "POST",
@@ -70,6 +77,9 @@ const Home = () => {
           selectedBreeds: selectedBreedsArray,
           zipCodes: zipCodeArray,
           ageRange: ageRange,
+          size: size,
+          field: field,
+          order: sortOrder,
         }),
       });
 
@@ -82,6 +92,14 @@ const Home = () => {
     } catch (error) {
       console.error("Error updating preferences:", error);
     }
+  };
+
+  const handleFieldChange = (e) => {
+    setField(e.target.value);
+  };
+
+  const handleToggleChange = (newValue) => {
+    setSortOrder(newValue);
   };
 
   return (
@@ -108,6 +126,32 @@ const Home = () => {
       </ul>
       <ZipCodeSelector onSubmit={zipCodesChange} />
       <AgeSelector onAgeChange={handleAgeChange} />
+      <label>
+        Number of results: 1~10000:
+        <input
+          type="number"
+          value={size}
+          onChange={(e) => setSize(e.target.value)}
+          min="1"
+          max="10000"
+        />
+      </label>
+      <select onChange={handleFieldChange}>
+        {fields.map((option, index) => (
+          <option key={index} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      <div>
+        <h1>Sort Order Toggle</h1>
+        <Toggle
+          label="Sort Order"
+          value={sortOrder}
+          onChange={handleToggleChange}
+        />
+        <p>Selected Sort Order: {sortOrder}</p>
+      </div>
       <button type="button" onClick={getAllInfo}>
         Search
       </button>

@@ -31,6 +31,7 @@ const UserSchema = new mongoose.Schema({
       default: 20,
     },
   },
+  size: { type: Number },
   results: {
     prev: {
       type: String,

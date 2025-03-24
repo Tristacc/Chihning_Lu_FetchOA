@@ -19,6 +19,7 @@ router.get("/", async (req, res, next) => {
       body: JSON.stringify(dogIds.slice(0, 100)),
     });
     const dogs = await response.json();
+
     res.json({
       results: dogs,
       info: [user.selectedBreeds, user.zipCodes, user.ageRange],
