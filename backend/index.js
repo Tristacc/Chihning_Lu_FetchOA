@@ -1,7 +1,9 @@
-const port = 3001;
+require("dotenv").config();
+const port = process.env.PORT || 3001;
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const app = express();
 const loginRoute = require("./routes/login");
 const homeRoute = require("./routes/home");
@@ -12,7 +14,7 @@ const favoriteRoute = require("./routes/favorite");
 const mongoose = require("mongoose");
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/fetchOA", {
+    await mongoose.connect(process.env.MONGO_URI, {
       // useNewUrlParser: true,
       // useUnifiedTopology: true,
     });
@@ -46,6 +48,21 @@ app.use("/", loginRoute);
 app.use("/home", homeRoute);
 app.use("/results", resultsRoute);
 app.use("/favorite", favoriteRoute);
+
+// Serve the frontend
+const buildPath = path.join(__dirname, "../frontend/build");
+app.use(express.static(buildPath));
+
+app.get("/*", function (req, res) {
+  res.sendFile(
+    path.join(__dirname, "../frontend/build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    }
+  );
+});
 
 // Start the server
 app.listen(port, () =>
