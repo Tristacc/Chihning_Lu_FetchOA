@@ -38,7 +38,7 @@ app.use(cookieParser());
 // Allow sending cookies
 app.use(
   cors({
-    origin: `http://localhost:3000`,
+    origin: `http://18.220.119.210`,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
