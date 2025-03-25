@@ -10,7 +10,7 @@ const Favorite = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch("http://localhost:3001/favorite");
+        const response = await fetch("http://18.220.119.210/favorite");
         const data = await response.json();
         console.log(data.favorites);
         setDogs(data.favorites);
@@ -30,7 +30,7 @@ const Favorite = () => {
 
   const findMatch = async () => {
     try {
-      const response = await fetch("http://localhost:3001/favorite/match");
+      const response = await fetch("http://18.220.119.210/favorite/match");
       const data = await response.json();
       setMatch(data.match);
       console.log(data.match);

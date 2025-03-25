@@ -19,7 +19,7 @@ const Results = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch("http://localhost:3001/results");
+        const response = await fetch("http://18.220.119.210/results");
         const data = await response.json();
         setDogs(data.results);
         setTotalPage(data.results.total);
@@ -34,7 +34,7 @@ const Results = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const response = await fetch("http://localhost:3001/results/update", {
+        const response = await fetch("http://18.220.119.210/results/update", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

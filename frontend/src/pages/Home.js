@@ -19,7 +19,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBreeds = async () => {
       try {
-        const response = await fetch("http://localhost:3001/home");
+        const response = await fetch("http://18.220.119.210/home");
         const data = await response.json();
         // console.log("this is the data for breed", data.breeds);
         setBreeds(data.breeds);
@@ -68,7 +68,7 @@ const Home = () => {
   const getAllInfo = async () => {
     console.log(sortOrder);
     try {
-      const response = await fetch("http://localhost:3001/home/update", {
+      const response = await fetch("http://18.220.119.210/home/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

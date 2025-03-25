@@ -13,7 +13,7 @@ const DogCards = ({
   const getLocation = async () => {
     setClicked(!clicked);
     try {
-      const response = await fetch("http://localhost:3001/results/location", {
+      const response = await fetch("http://18.220.119.210/results/location", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
